@@ -7,6 +7,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer renderer;
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private Transform attackPivot;
     private Rigidbody2D _rb2d;
     private readonly int _animSpeed = Animator.StringToHash("Speed");
     private readonly int _animVelocityY = Animator.StringToHash("VelocityY");
@@ -24,9 +25,14 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetFloat(_animSpeed, Mathf.Abs(_rb2d.velocity.x));
         animator.SetFloat(_animVelocityY, _rb2d.velocity.y);
         animator.SetBool(_animIsGrounded, playerMovement.isGrounded);
-        
+
         if (Input.GetKeyDown(KeyCode.Q))
+        {
+            attackPivot.localScale = playerMovement.isFacingRight ? Vector3.one : new Vector3(-1, 1, 1); //ajustar position en escena para que haga espejo
             animator.SetTrigger(_animAttackA);
+            
+        }
+        
         renderer.flipX = !playerMovement.isFacingRight;
     }
 }
